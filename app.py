@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 def get_data():
     with open("data.json", "r", encoding="UTF-8") as handel:
-        return json.load(handel)
+        data = json.load(handel)
+        data.sort(key=lambda x:x["id"])
+        return data
 
 def write_data(data):
     with open("data.json", "w", encoding="UTF-8") as handel:
@@ -15,6 +17,7 @@ def add_post(post):
     data = get_data()
     ids = [post["id"] for post in data]
     post["id"] = max(ids) + 1
+    post["nb_likes"] = 0
     data.append(post)
     write_data(data)
 
@@ -27,6 +30,12 @@ def delete_post(post_id):
     data = get_data()
     filtered_data = [post for post in data if post["id"] != post_id]
     write_data(filtered_data)
+
+def update_post(updated_post):
+    data = get_data()
+    data = [post for post in data if post["id"] != updated_post["id"]]
+    data.append(updated_post)
+    write_data(data)
 
 
 @app.route('/')
@@ -56,21 +65,20 @@ def update(post_id):
         return "Post not found", 404
 
     if request.method == 'POST':
-    # Update the post in the JSON file
-    # Redirect back to index
         updated_post = dict(request.form)
         updated_post["id"] = post_id
-        data = get_data()
-        data.remove(post)
-        data.append(updated_post)
-        write_data(data)
+        updated_post["nb_likes"] = post["nb_likes"]
+        update_post(updated_post)
         return redirect(url_for('index'))
-
-
-    # Else, it's a GET request
-    # So display the update.html page
     return render_template('update.html', post=post)
 
+
+@app.route('/like/<int:post_id>')
+def like(post_id):
+    post = fetch_post_by_id(post_id)
+    post["nb_likes"] += 1
+    update_post(post)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
