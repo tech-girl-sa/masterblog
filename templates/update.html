@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<h1>ADD POST </h1>
-    <form action="/add" method="POST">
+<h1>UPDATE POST </h1>
+    <form action="{{url_for('update', post_id=post.id)}}" method="POST">
         <div class="form-input">
             <label for="title">Title:</label>
-            <input name="title" id="title" type="text" required>
+            <input name="title" id="title" type="text" required value={{post.title}}>
         </div>
         <div class="form-input">
             <label for="author">Author:</label>
-            <input name="author" id="author" type="text" required>
+            <input name="author" id="author" type="text" required value={{post.author}}>
         </div>
         <div id="form-input">
             <label for="content">Content:</label>
-            <textarea name="content" id="content" required></textarea>
+            <textarea name="content" id="content" required >{{post.content}}</textarea>
         </div>
 
         <button type="submit">Submit</button>
