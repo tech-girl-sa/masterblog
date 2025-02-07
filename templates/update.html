@@ -11,13 +11,13 @@
     <form action="{{url_for('update', post_id=post.id)}}" method="POST">
         <div class="form-input">
             <label for="title">Title:</label>
-            <input name="title" id="title" type="text" required value={{post.title}}>
+            <input name="title" id="title" type="text" required value="{{post.title}}">
         </div>
         <div class="form-input">
             <label for="author">Author:</label>
-            <input name="author" id="author" type="text" required value={{post.author}}>
+            <input name="author" id="author" type="text" required value="{{post.author}}">
         </div>
-        <div id="form-input">
+        <div class="form-input">
             <label for="content">Content:</label>
             <textarea name="content" id="content" required >{{post.content}}</textarea>
         </div>

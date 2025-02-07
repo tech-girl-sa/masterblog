@@ -25,3 +25,20 @@ h1 {
 .post p {
     margin: 10px 0;
 }
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width:50%;
+    justify-content: center;
+    margin-left: 25%;
+    margin-top: 7%;
+}
+.form-input {
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+}
+textarea {
+    min-height: 150px;
+}
